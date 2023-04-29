@@ -1,8 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const Signup = () => {
-  const handleSubmit = (e) => {};
+  const navigate = useNavigate();
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+
+  if (loading) {
+    return;
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    createUserWithEmailAndPassword(email, password);
+  };
   return (
     <div>
       <p className="text-center text-secondary text-3xl font-bold mt-10">
@@ -30,6 +50,7 @@ const Signup = () => {
           name="password"
           placeholder="Enter your password"
         />
+        <p className="text-error m-2">{error?.message}</p>
         <input
           type="submit"
           className="btn btn-secondary border-none text-white hover:bg-accent"
