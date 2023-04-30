@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,9 +6,15 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import useTodo from "../../Hooks/useTodo";
 const Home = () => {
+  const [searchText , setSearchText] = useState();
   const {setEditId} = useContext(ThemeContext);
   const [todos,setTodos] = useTodo()
   const navigate = useNavigate()
+
+  let searchedTodos = [];
+  searchedTodos=todos.filter(todo=>todo?.task.toLowerCase()===searchText?.toLowerCase())
+
+  let mappedArray = searchedTodos.length>0?searchedTodos:todos
 
   const handleEdit=(id)=>{
       setEditId(id);
@@ -41,9 +47,13 @@ const Home = () => {
       <div className="flex justify-between">
         {/* search bar */}
         <div className="form-control text-black">
-          <div className="input-group">
+          <form onSubmit={(e)=>{
+            e.preventDefault()
+            setSearchText(e.target.searchText.value)
+            }} className="input-group">
             <input
               type="text"
+              name="searchText"
               placeholder="Search task name"
               className="input input-bordered w-[300px]"
             />
@@ -63,7 +73,7 @@ const Home = () => {
                 />
               </svg>
             </button>
-          </div>
+          </form>
         </div>
         {/* Add todo button */}
         <button
@@ -87,7 +97,7 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            {todos.map((todo) => (
+            {mappedArray.map((todo) => (
               <tr>
                 <th>{todos.indexOf(todo) + 1}</th>
                 <td>{todo.task}</td>
