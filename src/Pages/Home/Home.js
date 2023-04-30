@@ -119,14 +119,20 @@ const Home = () => {
                     {todo.startTime} - {todo.endTime}
                   </td>
                   <td>
-                  <p className={`${todo.priority==="High Priority"?"bg-[#fc0328]":todo.priority==="Midium Priority"?"bg-accent":"bg-[#1f993a]"} w-[40%] rounded px-2 text-white`}>
-                  {todo.priority}
-                  </p>
+                    <p
+                      className={`${
+                        todo.priority === "High Priority"
+                          ? "bg-[#fc0328]"
+                          : todo.priority === "Midium Priority"
+                          ? "bg-accent"
+                          : "bg-[#1f993a]"
+                      } w-[50%] rounded-full text-center font-bold px-2 text-white`}
+                    >
+                      {todo.priority}
+                    </p>
                   </td>
                   <td>
-                  <p className={`${todo.status==="Not Started"?"bg-[#fc0328]":todo.status==="In Progress"?"bg-accent":"bg-[#1f993a]"} w-[40%] rounded px-2 text-white`}>
-                  {todo.status}
-                  </p>
+                      {todo.status}
                   </td>
                   <td>
                     <div className="flex">
