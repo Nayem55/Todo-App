@@ -110,7 +110,7 @@ const TodoFrom = () => {
           placeholder="Enter task name"
           required
         />
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row lg:flex-row justify-between">
           <div className="flex justify-between w-[100%]">
             <p className="text-black mt-2 ml-2">Start</p>
             <input

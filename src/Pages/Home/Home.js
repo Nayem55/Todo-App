@@ -5,52 +5,57 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import useTodo from "../../Hooks/useTodo";
+import empty from "./empty.avif";
 const Home = () => {
-  const [searchText , setSearchText] = useState();
-  const {setEditId} = useContext(ThemeContext);
-  const [todos,setTodos] = useTodo()
-  const navigate = useNavigate()
+  const [searchText, setSearchText] = useState();
+  const { setEditId } = useContext(ThemeContext);
+  const [todos, setTodos] = useTodo();
+  const navigate = useNavigate();
 
   let searchedTodos = [];
-  searchedTodos=todos.filter(todo=>todo?.task.toLowerCase()===searchText?.toLowerCase())
+  searchedTodos = todos.filter(
+    (todo) => todo?.task.toLowerCase() === searchText?.toLowerCase()
+  );
 
-  let mappedArray = searchedTodos.length>0?searchedTodos:todos
+  let mappedArray = searchedTodos.length > 0 ? searchedTodos : todos;
 
-  const handleEdit=(id)=>{
-      setEditId(id);
-      navigate("/todo")
-  }
-  const handleAdd=()=>{
-      navigate("/todo")
-      setEditId("");
-
-  }
+  const handleEdit = (id) => {
+    setEditId(id);
+    navigate("/todo");
+  };
+  const handleAdd = () => {
+    navigate("/todo");
+    setEditId("");
+  };
 
   const handleDelete = (item) => {
-    fetch('https://todo-app-nayem55.vercel.app/todos',{
-      method:'delete',
+    fetch("https://todo-app-nayem55.vercel.app/todos", {
+      method: "delete",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
     })
-    .then(res=>res.json())
-    .then(data=>{
-      console.log(data)
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
     const rest = todos.filter((todo) => todo._id !== item._id);
     setTodos(rest);
   };
 
   return (
     <div className="home p-10">
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-col md:flex-row lg:flex-row">
         {/* search bar */}
         <div className="form-control text-black">
-          <form onSubmit={(e)=>{
-            e.preventDefault()
-            setSearchText(e.target.searchText.value)
-            }} className="input-group">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchText(e.target.searchText.value);
+            }}
+            className="input-group"
+          >
             <input
               type="text"
               name="searchText"
@@ -84,61 +89,78 @@ const Home = () => {
         </button>
       </div>
       <div className="overflow-x-auto">
-        <table className="table-compact bg-white text-left text-black w-full">
-          <thead className="bg-secondary text-white">
-            <tr className="">
-              <th></th>
-              <th>Task</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mappedArray.map((todo) => (
+        {mappedArray.length < 1 ? (
+          <div>
+            <p className="text-center text-secondary text-4xl my-10 font-bold">
+              Your Todo List Is Empty!!!
+            </p>
+            <img src={empty} className="w-[60%] mx-auto " alt="" />
+          </div>
+        ) : (
+          <table className="table-compact bg-white text-left text-black w-full">
+            <thead className="bg-secondary text-white">
               <tr>
-                <th>{todos.indexOf(todo) + 1}</th>
-                <td>{todo.task}</td>
-                <td>{todo.date}</td>
-                <td>
-                  {todo.startTime} - {todo.endTime}
-                </td>
-                <td>{todo.priority}</td>
-                <td>{todo.status}</td>
-                <td>
-                  <div className="flex">
-                    <button onClick={()=>handleEdit(todo._id)}>
-                      <FontAwesomeIcon
-                        className="mr-2 text-accent hover:text-secondary"
-                        icon={faPenToSquare}
-                      ></FontAwesomeIcon>
-                    </button>
-
-                    <button onClick={()=>handleDelete(todo)}>
-                      <FontAwesomeIcon
-                        className="text-secondary hover:text-accent"
-                        icon={faTrash}
-                      ></FontAwesomeIcon>
-                    </button>
-                  </div>
-                </td>
+                <th></th>
+                <th>Task</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-          <tfoot className="bg-secondary text-white">
-            <tr>
-              <th></th>
-              <th>Task</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {mappedArray.map((todo) => (
+                <tr>
+                  <th>{todos.indexOf(todo) + 1}</th>
+                  <td>{todo.task}</td>
+                  <td>{todo.date}</td>
+                  <td>
+                    {todo.startTime} - {todo.endTime}
+                  </td>
+                  <td>
+                  <p className={`${todo.priority==="High Priority"?"bg-[#fc0328]":todo.priority==="Midium Priority"?"bg-accent":"bg-[#1f993a]"} w-[40%] rounded px-2 text-white`}>
+                  {todo.priority}
+                  </p>
+                  </td>
+                  <td>
+                  <p className={`${todo.status==="Not Started"?"bg-[#fc0328]":todo.status==="In Progress"?"bg-accent":"bg-[#1f993a]"} w-[40%] rounded px-2 text-white`}>
+                  {todo.status}
+                  </p>
+                  </td>
+                  <td>
+                    <div className="flex">
+                      <button onClick={() => handleEdit(todo._id)}>
+                        <FontAwesomeIcon
+                          className="mr-2 text-accent hover:text-secondary"
+                          icon={faPenToSquare}
+                        ></FontAwesomeIcon>
+                      </button>
+
+                      <button onClick={() => handleDelete(todo)}>
+                        <FontAwesomeIcon
+                          className="text-secondary hover:text-accent"
+                          icon={faTrash}
+                        ></FontAwesomeIcon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-secondary text-white">
+              <tr>
+                <th></th>
+                <th>Task</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </tfoot>
+          </table>
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [passError, setPassError]=useState("")
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -21,7 +22,12 @@ const Signup = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    if(password.length<6){
+        setPassError("Password must contain 6 characters")
+        return
+    }
     createUserWithEmailAndPassword(email, password);
+    setPassError("")
   };
   return (
     <div>
@@ -50,7 +56,7 @@ const Signup = () => {
           name="password"
           placeholder="Enter your password"
         />
-        <p className="text-error m-2">{error?.message}</p>
+        <p className="text-error m-2 font-bold">{error?error.message:passError}</p>
         <input
           type="submit"
           className="btn btn-secondary border-none text-white hover:bg-accent"
