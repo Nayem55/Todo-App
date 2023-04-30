@@ -151,7 +151,7 @@ const TodoFrom = () => {
           id="status"
           required
         >
-          <option>{editId ? editedProduct?.status : "Select Priority"}</option>
+          <option>{editId ? editedProduct?.status : "Select Status"}</option>
           <option>Not Started</option>
           <option>In Progress</option>
           <option>Done</option>

@@ -62,7 +62,7 @@ const Home = () => {
               placeholder="Search task name"
               className="input input-bordered w-[300px]"
             />
-            <button className="btn btn-square bg-secondary border-none hover:bg-accent">
+            <button className="btn btn-square text-white bg-secondary border-none hover:bg-accent">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
