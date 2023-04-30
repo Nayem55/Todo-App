@@ -4,6 +4,7 @@ import Main from "../Layout/Main";
 import TodoFrom from "../Pages/TodoFrom/TodoFrom";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
+import RequireAuth from "../Pages/RequireAuth/RequireAuth";
 
 
 
@@ -14,11 +15,15 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home></Home>
+                element:<RequireAuth><Home></Home></RequireAuth> 
+            },
+            {
+                path: '/home',
+                element:<RequireAuth><Home></Home></RequireAuth> 
             },
             {
                 path: '/todo',
-                element: <TodoFrom></TodoFrom>
+                element:<RequireAuth><TodoFrom></TodoFrom></RequireAuth>
             },
             {
                 path: '/login',
