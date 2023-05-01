@@ -4,6 +4,7 @@ import auth from "../../firebase.init";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import useTodo from "../../Hooks/useTodo";
+import { toast } from "react-hot-toast";
 
 const TodoFrom = () => {
   const { editId } = useContext(ThemeContext);
@@ -50,6 +51,7 @@ const TodoFrom = () => {
       });
     e.target.reset();
     navigate("/");
+    toast.success("Task added successfully")
   };
 
   // update todo
@@ -83,6 +85,7 @@ const TodoFrom = () => {
       .then((res) => res.json())
       .then((data) => console.log(data));
     navigate("/");
+    toast.success("Task edited successfully")
   };
 
   return (
@@ -103,11 +106,10 @@ const TodoFrom = () => {
           required
         />
         <input
-          className="p-2 mb-2 text-black"
+          className="p-2 mb-2 w-[100%] text-black"
           type="date"
           id="date"
           name="date"
-          placeholder="Enter task name"
           required
         />
         <div className="flex flex-col md:flex-row lg:flex-row justify-between">
