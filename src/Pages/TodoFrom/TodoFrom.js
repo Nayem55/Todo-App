@@ -92,7 +92,7 @@ const TodoFrom = () => {
       </p>
       <form
         onSubmit={editId ? handleUpdate : handleSubmit}
-        className="flex flex-col w-[50vw] mx-auto mt-[30px]"
+        className="flex flex-col w-[90vw] md:w-[50vw] mx-auto mt-[30px]"
       >
         <input
           className="p-2 mb-2 text-black"

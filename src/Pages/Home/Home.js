@@ -45,7 +45,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home p-10">
+    <div className="home px-2 py-5 md:p-10">
       <div className="flex justify-between flex-col md:flex-row lg:flex-row">
         {/* search bar */}
         <div className="form-control text-black">
@@ -83,7 +83,7 @@ const Home = () => {
         {/* Add todo button */}
         <button
           onClick={handleAdd}
-          className="btn btn-accent text-white mb-6 w-[200px] hover:bg-accent border-none"
+          className="btn btn-accent mt-5 mx-auto text-white mb-6 w-[200px] hover:bg-accent border-none md:mx-0 lg:mx-0 "
         >
           Add Todo
         </button>
@@ -126,7 +126,7 @@ const Home = () => {
                           : todo.priority === "Midium Priority"
                           ? "bg-accent"
                           : "bg-[#1f993a]"
-                      } w-[50%] rounded-full text-center font-bold px-2 text-white`}
+                      } w-[100%] md:w-[50%] rounded-full text-center font-bold px-2 text-white`}
                     >
                       {todo.priority}
                     </p>

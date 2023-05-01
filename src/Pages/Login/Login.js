@@ -29,7 +29,7 @@ const Login = () => {
       </p>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col w-[30vw] mx-auto mt-[30px]"
+        className="flex flex-col w-[80vw] md:w-[30vw] mx-auto mt-[30px]"
       >
         <input
           className="p-2 mb-2 text-black"
